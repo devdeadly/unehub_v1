@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 const express = require('express')
-const db = require('./db')
+const db = require('./db/db')
 const getEnv = require('./utils/env')
 const colors = require('colors')
 const app = express()
@@ -15,8 +15,6 @@ const app = express()
  */
 ;(async () => {
   const dbUri = process.env[`MONGO_URI${getEnv()}`]
-  console.log(`MONGO_URI${getEnv()}`)
-  console.log(dbUri)
   await db.connect(dbUri)
 
   // init middleware
@@ -24,9 +22,9 @@ const app = express()
 
   app.get('/', (req, res) => res.send('API running'))
 
-  app.use('/api/users', require('./routes/api/users'))
-  app.use('/api/auth', require('./routes/api/auth'))
-  app.use('/api/profile', require('./routes/api/profile'))
+  app.use('/api/users', require('./routes/users'))
+  app.use('/api/auth', require('./routes/auth'))
+  app.use('/api/profile', require('./routes/profile'))
 
   const PORT = process.env.PORT || 8000
 

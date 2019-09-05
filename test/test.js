@@ -1,7 +1,3 @@
-/**
- * INTEGRATION TEST SUITE
- */
-
 const expect = require('expect.js')
 const jwt = require('jsonwebtoken')
 const request = require('supertest')
@@ -10,7 +6,7 @@ const request = require('supertest')
 const { newUser, newProfile } = require('./fixtures')
 
 const app = require('../server')
-const db = require('../db')
+const db = require('../db/db')
 
 let userObjectId, jwtToken
 
@@ -32,7 +28,7 @@ after(done => {
     })
 })
 
-describe('Users API'.magenta.underline, () => {
+describe('INTEGRATION TESTS'.magenta.bold, () => {
   describe('POST /api/users'.magenta, () => {
     it('should successfully register a user', done => {
       request(app)
@@ -42,7 +38,7 @@ describe('Users API'.magenta.underline, () => {
           jwtToken = res.body.token
           const decoded = jwt.decode(jwtToken, process.env.JWT_SECRET)
           userObjectId = decoded.user.id
-          expect(res.status).to.eql(200)
+          expect(res.status).to.be(200)
           done()
         })
         .catch(error => {
@@ -52,20 +48,18 @@ describe('Users API'.magenta.underline, () => {
   })
 
   describe('POST /api/users'.magenta, () => {
-    it('should fail when no name, email, and password are sent', () => {
+    it('should fail when no name, email, and password in request', () => {
       request(app)
         .post('/api/users')
         .send({})
         .then(res => {
           const { errors } = res.body
           // three errors are requried name, email, and password
-          expect(errors.length).to.eql(3)
+          expect(errors.length).to.be(3)
         })
     })
   })
-})
 
-describe('Profile API'.magenta.underline, () => {
   describe('POST /api/profile'.magenta, () => {
     it('should create a profile', done => {
       request(app)
@@ -109,31 +103,31 @@ describe('Profile API'.magenta.underline, () => {
         .get('/api/profile/me/')
         .set('x-auth-token', jwtToken)
         .then(res => {
-          expect(res.body.user._id).to.eql(userObjectId)
-          expect(res.status).to.eql(200)
+          expect(res.body.user._id).to.be(userObjectId)
+          expect(res.status).to.be(200)
           done()
         })
         .catch(error => done(error))
     })
   })
 
-  describe('DELETE /api/profile/'.magenta, () => {
+  describe('DELETE /api/users/'.magenta, () => {
     it('should delete profile of authenticated user', done => {
       request(app)
-        .delete('/api/profile/')
+        .delete('/api/users/')
         .set('x-auth-token', jwtToken)
         .then(res => {
-          expect(res.status).to.eql(204)
+          expect(res.status).to.be(204)
           done()
         })
         .catch(error => done(error))
     })
 
-    it('should block deletions sent without a token foo', done => {
+    it('should block unauthenticated deletions', done => {
       request(app)
-        .delete('/api/profile/')
+        .delete('/api/users/')
         .then(res => {
-          expect(res.status).to.eql(401)
+          expect(res.status).to.be(401)
           done()
         })
         .catch(error => done(error))
