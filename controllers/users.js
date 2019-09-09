@@ -54,11 +54,9 @@ const registerUser = async (req, res) => {
 
 const deleteAuthd = async (req, res) => {
   try {
-    // @TODO remove user's posts
-
+    // cascade deleting
     // remove profile
     await Profile.findOneAndRemove({ user: req.user.id })
-
     // remove user
     await User.findOneAndRemove({ _id: req.user.id })
 
