@@ -3,6 +3,7 @@ services:
   web:
     build: .
     command: nodemon server.js # will override the CMD in Dockerfile
+    tty: true # resepects console colors
     volumes:
       # leverage bind-mounting this says take my current dir and bind-mount it on /usr/src/app inside my container
       - ./:/usr/src/app 

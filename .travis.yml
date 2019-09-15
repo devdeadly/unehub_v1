@@ -1,10 +1,8 @@
 language: node_js
 node_js:
   - node # latest stable Node.js release
-env:
-  - NODE_ENV=test MONGO_URI__TEST=mongodb://mongo:27017/test JWT_SECRET=skrrrt
+services:
+  - docker
 cache:
   directories:
     - 'node_modules' # cache to avoid installing all dependencies every build
-services:
-  - mongodb

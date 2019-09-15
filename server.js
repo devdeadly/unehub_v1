@@ -14,7 +14,12 @@ const app = express()
  * note the semi-colon, if put here, prettier will leave it be
  */
 ;(async () => {
-  const dbUri = process.env[`MONGO_URI${getEnv()}`]
+  const env = getEnv()
+  const mongoUri = `MONGO_URI${env}`
+  const dbUri = process.env[mongoUri]
+  console.log(`env: ${env}`)
+  console.log(`mongoUri: ${mongoUri}`)
+  console.log(`dbUri: ${dbUri}`)
   await db.connect(dbUri)
 
   // init middleware

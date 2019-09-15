@@ -3,6 +3,7 @@ services:
   app:
     container_name: unehub_app_test
     restart: always
+    tty: true # resepects console colors
     # build the unehub_app image using the Dockerfile in the current directory
     build:
       # Either a path to a directory containing a Dockerfile, or a url to a git repository. 
@@ -20,6 +21,7 @@ services:
   mongo:
     container_name: unehub_mongo_test
     restart: always
+    tty: true
     # instaed of building our own mongo image, pull the standard mongo image from
     # the Docker Hub registry
     image: mongo
