@@ -28,6 +28,10 @@ after(done => {
     })
 })
 
+describe("easy", () => {
+  expect(2).to.be(2);
+})
+
 describe('INTEGRATION TESTS'.magenta.bold, () => {
   describe('POST /api/users'.magenta, () => {
     it('should successfully register a user', done => {

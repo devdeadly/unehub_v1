@@ -1,0 +1,18 @@
+version: '3'
+services:
+  web:
+    build: .
+    command: nodemon server.js # will override the CMD in Dockerfile
+    volumes:
+      # leverage bind-mounting this says take my current dir and bind-mount it on /usr/src/app inside my container
+      - ./:/usr/src/app 
+    ports:
+      - '80:8000'
+    depends_on:
+      - mongo
+    restart: always
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27107'
+    restart: always

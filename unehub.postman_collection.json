@@ -1,0 +1,327 @@
+{
+	"info": {
+		"_postman_id": "37ceb1e7-55eb-4dde-b582-58eb5ec6f6e1",
+		"name": "unehub",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "register user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dbfab36b-e06d-414d-8dde-a002b79952b5",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"token\", jsonData.token);",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"token\", jsonData.token);",
+							"",
+							"// example using pm.response.to.be*",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"});",
+							"",
+							"// example using response assertions",
+							"pm.test(\"response should be okay to process\", function () {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.have.jsonBody(\"token\");",
+							"    pm.expect(postman.getEnvironmentVariable(\"token\")).to.equal(jsonData.token)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "JSON Content Type",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Colby Thomas\",\n    \"email\": \"coloradocolby@gmail.com\",\n    \"password\": \"password\"\n}"
+				},
+				"url": {
+					"raw": "{{api_url}}/users/",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c3516155-932d-4194-b2ea-3c5f735af996",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"token\", jsonData.token);",
+							"",
+							"// example using pm.response.to.be*",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"});",
+							"",
+							"// example using response assertions",
+							"pm.test(\"response should be okay to process\", function () {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.have.jsonBody(\"token\");",
+							"    pm.expect(postman.getEnvironmentVariable(\"token\")).to.equal(jsonData.token)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "JSON Content Type",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"coloradocolby@gmail.com\",\n\t\"password\": \"password\"\n}"
+				},
+				"url": {
+					"raw": "{{api_url}}/auth",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "upsert profile",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b169906f-c754-4473-a96a-bbf4674e7978",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"profile_id\", jsonData.user);",
+							"",
+							"",
+							"// example using pm.response.to.be*",
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"});",
+							"",
+							"// example using response assertions",
+							"pm.test(\"response should be okay to process\", function () {",
+							"    pm.response.to.not.be.error;",
+							"    pm.response.to.have.jsonBody(\"user\");",
+							"    pm.expect(postman.getEnvironmentVariable(\"profile_id\")).to.equal(jsonData.user)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": "JSON Content Type",
+						"type": "text"
+					},
+					{
+						"key": "x-auth-token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"location\": \"Dallas, TX\",\n    \"birthday\": \"06/16/1994\",\n    \"disciplines\": \"street, flat, trials\",\n    \"website\": \"https://colby.sh\",\n    \"bio\": \"skrrrt\",\n    \"youtube\": \"https://youtube.com/coloradocolby\",\n    \"twitter\": \"https://twitter.com/coloradocolby\",\n    \"instagram\": \"https://instagram.com/coloradocolby\",\n    \"facebook\": \"https://facebook.com/coloradocolby\"\n}"
+				},
+				"url": {
+					"raw": "{{api_url}}/profile",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get user via token",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{api_url}}/auth/",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"auth",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get profile via user id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{api_url}}/profile/user/{{profile_id}}",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"profile",
+						"user",
+						"{{profile_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get profile via token",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{api_url}}/profile/me",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"profile",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all profiles",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"type": "text",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Im5hbWUiOiJNaWNoZWxsZSIsImlkIjoiNWQ2YTk3NWY4ZGIxN2E3MGFhMjAzZDkzIn0sImlhdCI6MTU2NzI2NjY4NiwiZXhwIjoxNTcwODY2Njg2fQ.ZaIaw3A0I6dHpXWcCmGRUsDECA-vtzYwDAmzGYUI_Oo"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{api_url}}/profile",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete user and profile via token",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "x-auth-token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{api_url}}/users/",
+					"host": [
+						"{{api_url}}"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
