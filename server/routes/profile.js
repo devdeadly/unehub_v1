@@ -8,7 +8,7 @@ const {
   getProfileById,
   getAuthdProfile,
   upsertProfile,
-} = require('../controllers/profile')
+} = require('../services/profile')
 
 const router = express.Router()
 

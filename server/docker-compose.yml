@@ -1,12 +1,12 @@
 version: '3'
 services:
   web:
-    build: .
+    build: ./ # the relative location to the build context (our local Dockerfile)
     command: nodemon server.js # will override the CMD in Dockerfile
-    tty: true # resepects console colors
+    tty: true # respects console colors
     volumes:
       # leverage bind-mounting this says take my current dir and bind-mount it on /usr/src/app inside my container
-      - ./:/usr/src/app 
+      - ./:/usr/src/app
     ports:
       - '80:8000'
     depends_on:
@@ -15,5 +15,5 @@ services:
   mongo:
     image: mongo
     ports:
-      - '27017:27107'
+      - '27017:27017'
     restart: always

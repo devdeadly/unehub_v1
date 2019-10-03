@@ -1,6 +1,8 @@
 require('dotenv').config()
 
 const express = require('express')
+const cors = require('cors')
+
 const db = require('./db/db')
 const getEnv = require('./utils/env')
 const colors = require('colors')
@@ -17,13 +19,11 @@ const app = express()
   const env = getEnv()
   const mongoUri = `MONGO_URI${env}`
   const dbUri = process.env[mongoUri]
-  console.log(`env: ${env}`)
-  console.log(`mongoUri: ${mongoUri}`)
-  console.log(`dbUri: ${dbUri}`)
   await db.connect(dbUri)
 
   // init middleware
   app.use(express.json({ extended: false }))
+  app.use(cors())
 
   app.get('/', (req, res) => res.send('API running'))
 
