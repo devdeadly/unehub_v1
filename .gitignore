@@ -1,4 +1,5 @@
 **/node_modules/
 **/dist/
 **/data/db/
+**/mongodb_persist
 .env
