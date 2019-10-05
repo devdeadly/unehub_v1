@@ -2,50 +2,68 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import Navbar from './components/Navbar'
 
+import { Provider } from 'react-redux'
+import store from './store'
+import { loadUser } from './actions/auth'
+import setAuthToken from './utils/set-auth-token'
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token)
+}
+
 class App extends Component {
   state = {
     profiles: [],
   }
+
   async componentDidMount() {
+    store.dispatch(loadUser())
+
     const response = await axios.get('http://localhost/api/profile')
-    console.log(response.data)
     this.setState({ profiles: response.data })
   }
 
   render() {
     return (
-      <div className='App'>
-        <Navbar />
-        <div class='max-w-sm rounded overflow-hidden shadow-lg'>
-          <img
-            class='w-full'
-            src='https://images.unsplash.com/photo-1569834381156-7b735e41e57d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=889&q=80'
-            alt='Sunset in the mountains'
-          />
-          <div class='px-6 py-4'>
-            <div class='font-bold text-xl mb-2'>The Coldest Sunset</div>
-            <p class='text-gray-700 text-base'>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Voluptatibus quia, nulla! Maiores et perferendis eaque,
-              exercitationem praesentium nihil.
-            </p>
-          </div>
-          <div class='px-6 py-4'>
-            <span class='inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2'>
-              #photography
-            </span>
-            <span class='inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2'>
-              #travel
-            </span>
-            <span class='inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-500'>
-              #winter
-            </span>
-          </div>
+      <Provider store={store}>
+        <div className='App font-sans'>
+          <Navbar />
+          <main className='px-4'>
+            {this.state.profiles.map((profile, i) => (
+              <div
+                key={i}
+                className='max-w-sm bg-white rounded overflow-hidden shadow-md hover:shadow-lg transition-all transition-100 m-100'
+              >
+                <img
+                  className='w-full'
+                  src={profile.user.avatar}
+                  alt='Sunset in the mountains'
+                />
+                <div className='px-6 py-4'>
+                  <div className='font-bold text-xl mb-2'>
+                    {profile.user.name}
+                  </div>
+                  <p className='text-gray-700 text-base'>{profile.bio}</p>
+                </div>
+                <div className='px-6 py-4'>
+                  {profile.disciplines.map((discipline, i) => (
+                    <span
+                      key={i}
+                      className='inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2'
+                    >
+                      #{discipline}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            {/* <pre className='bg-purple-300 my-4 p-6 rounded shadow-lg hover:bg-indigo-300 transition-all transition-2000'>
+              {JSON.stringify(this.state.profiles, null, 2)}
+            </pre> */}
+          </main>
         </div>
-        <pre className='bg-purple-300 m-6 p-6 rounded shadow-lg'>
-          {JSON.stringify(this.state.profiles, null, 2)}
-        </pre>
-      </div>
+      </Provider>
     )
   }
 }
