@@ -1,23 +1,33 @@
 const mongoose = require('mongoose')
 
-const connect = async uri => {
-  try {
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-    })
+const MONGO_DB_OPTIONS = {
+  reconnectInterval: 5000,
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+}
 
-    console.log(
-      `Successfully connected to${
-        process.env.NODE_ENV === 'test' ? ' test instance of ' : ' '
-      }MongoDB\n`.magenta.bold
-    )
-  } catch (error) {
-    console.error(error.message)
-    // exit process with failure (stop app)
-    process.exit(1)
-  }
+const connectWithRetry = async uri => {
+  mongoose
+    .connect(uri, MONGO_DB_OPTIONS)
+    .then(() => {
+      console.log(
+        `Successfully connected to${
+          process.env.NODE_ENV === 'test' ? ' test instance of ' : ' '
+        }MongoDB\n`.magenta.bold
+      )
+    })
+    .catch(() => {
+      console.log(
+        `Failed to connect to MongoDB, retrying in ${MONGO_DB_OPTIONS.reconnectInterval /
+          1000} second(s)`.red.bold
+      )
+      setTimeout(
+        () => connectWithRetry(uri),
+        MONGO_DB_OPTIONS.reconnectInterval
+      )
+    })
+  return
 }
 
 const disconnect = async () => {
@@ -36,6 +46,6 @@ const disconnect = async () => {
 }
 
 module.exports = {
-  connect,
+  connectWithRetry,
   disconnect,
 }

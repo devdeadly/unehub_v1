@@ -11,11 +11,11 @@ services:
       - '80:8000'
     depends_on:
       - mongo
-    # restart: always
+    restart: always
   mongo:
     image: mongo
     ports:
       - '27017:27017'
-    # restart: always
+    restart: always
     volumes:
       - ./mongodb_persist:/data/db # persist the data from docker's mongodb in a local file
