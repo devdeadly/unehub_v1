@@ -12356,6 +12356,18 @@ body {
   background-color: #EFF0EB;
 }
 
+.disabled-button {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.invalid-field {
+  color: #f56565;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-style: italic;
+}
+
 @media (min-width: 640px) {
   .sm\:sr-only {
     position: absolute;
