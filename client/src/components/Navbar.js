@@ -1,32 +1,30 @@
 import React, { Component } from 'react'
+import RegisterForm from './RegisterForm'
+import LoginForm from './LoginForm'
 
 class Navbar extends Component {
   state = {
     profiles: [],
-    showModal: false,
+    showRegisterForm: false,
+    showLoginForm: false,
   }
 
+  toggleRegisterForm = () => {
+    this.setState({ showRegisterForm: !this.state.showRegisterForm })
+  }
+
+  toggleLoginForm = () => {
+    this.setState({ showLoginForm: !this.state.showLoginForm })
+  }
   render() {
     return (
       <>
-        {this.state.showModal && (
-          <div
-            className='fixed inset-0 z-50 overflow-auto bg-smoke_light flex items-center'
-            onClick={() => this.setState({ showModal: !this.state.showModal })}
-          >
-            <div className='bg-white mx-10 p-5 rounded shadow-lg'>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.
-            </div>
-          </div>
+        {this.state.showRegisterForm && (
+          <RegisterForm handleClick={this.toggleRegisterForm} />
+        )}
+
+        {this.state.showLoginForm && (
+          <LoginForm handleClick={this.toggleLoginForm} />
         )}
 
         <nav className='flex items-center justify-between flex-wrap bg-white mb-4 text-gray-800 border-'>
@@ -53,21 +51,23 @@ class Navbar extends Component {
                 href='#responsive-header'
                 className='block mt-4 lg:inline-block lg:mt-0 '
               >
-                Riders
+                riders
               </a>
             </div>
             <div className='lg:flex-grow'></div>
             <div className='flex'>
               <button
-                className='lg:self-center bg-custom_green rounded px-2 py-1 text-white mt-4 mx-2 lg:mt-0'
-                onClick={() =>
-                  this.setState({ showModal: !this.state.showModal })
-                }
+                className='lg:self-center bg-custom_green rounded px-2 py-1 text-white mt-4 mx-2 lg:mt-0 hover:shadow-md transition-all transition-100'
+                onClick={this.toggleRegisterForm}
               >
-                Sign up
+                register
               </button>
-              <button className='lg:self-center bg-gray-200 text-gray-700 rounded px-2 py-1 text-white mt-4 mx-2 lg:mt-0'>
-                Log in
+
+              <button
+                className='lg:self-center bg-gray-200 text-gray-700 rounded px-2 py-1 text-white mt-4 mx-2 lg:mt-0  hover:shadow-md transition-all transition-100'
+                onClick={this.toggleLoginForm}
+              >
+                log in
               </button>
             </div>
           </div>
