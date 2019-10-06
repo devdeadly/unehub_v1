@@ -5,3 +5,15 @@
 body {
   @apply bg-beige;
 }
+
+.disabled-button {
+  @apply opacity-50;
+  @apply cursor-not-allowed;
+}
+
+.invalid-field {
+  @apply text-red-500;
+  @apply text-xs;
+  @apply font-bold;
+  @apply italic;
+}
