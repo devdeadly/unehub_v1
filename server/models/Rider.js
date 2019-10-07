@@ -1,10 +1,21 @@
 const mongoose = require('mongoose')
 
-const ProfileSchema = new mongoose.Schema({
-  // create reference to user model, since every profile should be associated with a user
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'user',
+const RiderSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    require: true,
+  },
+  avatar: {
+    type: String,
   },
   location: {
     type: String,
@@ -79,4 +90,4 @@ const ProfileSchema = new mongoose.Schema({
   },
 })
 
-module.exports = Profile = mongoose.model('profile', ProfileSchema)
+module.exports = Rider = mongoose.model('rider', RiderSchema)

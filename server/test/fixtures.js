@@ -1,7 +1,7 @@
 const crypto = require('crypto')
 
-const newUser = {
-  name: 'Test User',
+const newRider = {
+  name: 'Test Rider',
   email: `${crypto.randomBytes(5).toString('hex')}@example.com`, // generate random email
   password: 'password',
 }
@@ -19,6 +19,6 @@ const newProfile = {
 }
 
 module.exports = {
-  newUser,
+  newRider,
   newProfile,
 }

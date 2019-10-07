@@ -3,20 +3,22 @@ const jwt = require('jsonwebtoken')
 const request = require('supertest')
 
 //fixtures
-const { newUser, newProfile } = require('./fixtures')
+const { newRider, newProfile } = require('./fixtures')
 
 const app = require('../server')
 const db = require('../db/db')
 
-let userObjectId, jwtToken
+let riderObjectId, jwtToken
 
-before(done => {
+before(function(done) {
+  this.enableTimeouts(false)
   app.on('READY', () => {
     done()
   })
 })
 
 after(done => {
+  console.log('disconnecting')
   db.disconnect()
     .then(() => {
       done()
@@ -29,15 +31,15 @@ after(done => {
 })
 
 describe('INTEGRATION TESTS'.magenta.bold, () => {
-  describe('POST /api/users'.magenta, () => {
-    it('should successfully register a user', done => {
+  describe('POST /api/riders'.magenta, () => {
+    it('should successfully register a rider', done => {
       request(app)
-        .post('/api/users')
-        .send(newUser)
+        .post('/api/riders')
+        .send(newRider)
         .then(res => {
           jwtToken = res.body.token
           const decoded = jwt.decode(jwtToken, process.env.JWT_SECRET)
-          userObjectId = decoded.user.id
+          riderObjectId = decoded.rider.id
           expect(res.status).to.be(200)
           done()
         })
@@ -47,10 +49,10 @@ describe('INTEGRATION TESTS'.magenta.bold, () => {
     })
   })
 
-  describe('POST /api/users'.magenta, () => {
+  describe('POST /api/riders'.magenta, () => {
     it('should fail when no name, email, and password in request', () => {
       request(app)
-        .post('/api/users')
+        .post('/api/riders')
         .send({})
         .then(res => {
           const { errors } = res.body
@@ -81,29 +83,29 @@ describe('INTEGRATION TESTS'.magenta.bold, () => {
     })
   })
 
-  describe(`GET /api/profile/user/${userObjectId}`.magenta, () => {
-    it('should return 200 on successful user id', async () => {
+  describe(`GET /api/profile/rider/${riderObjectId}`.magenta, () => {
+    it('should return 200 on successful rider id', async () => {
       await request(app)
-        .get(`/api/profile/user/${userObjectId}`)
+        .get(`/api/profile/rider/${riderObjectId}`)
         .expect(200)
     })
   })
 
-  describe('GET /api/profile/user/invalid-id'.magenta, () => {
-    it('should return 400 on faulty user id', async () => {
+  describe('GET /api/profile/rider/invalid-id'.magenta, () => {
+    it('should return 400 on faulty rider id', async () => {
       await request(app)
-        .get('/api/profile/user/invalid-id')
+        .get('/api/profile/rider/invalid-id')
         .expect(400)
     })
   })
 
   describe('GET /api/profile/me/'.magenta, () => {
-    it('should return profile of authenticated user', done => {
+    it('should return profile of authenticated rider', done => {
       request(app)
         .get('/api/profile/me/')
         .set('x-auth-token', jwtToken)
         .then(res => {
-          expect(res.body.user._id).to.be(userObjectId)
+          expect(res.body.rider._id).to.be(riderObjectId)
           expect(res.status).to.be(200)
           done()
         })
@@ -111,10 +113,10 @@ describe('INTEGRATION TESTS'.magenta.bold, () => {
     })
   })
 
-  describe('DELETE /api/users/'.magenta, () => {
-    it('should delete profile of authenticated user', done => {
+  describe('DELETE /api/riders/'.magenta, () => {
+    it('should delete profile of authenticated rider', done => {
       request(app)
-        .delete('/api/users/')
+        .delete('/api/riders/')
         .set('x-auth-token', jwtToken)
         .then(res => {
           expect(res.status).to.be(204)
@@ -125,7 +127,7 @@ describe('INTEGRATION TESTS'.magenta.bold, () => {
 
     it('should block unauthenticated deletions', done => {
       request(app)
-        .delete('/api/users/')
+        .delete('/api/riders/')
         .then(res => {
           expect(res.status).to.be(401)
           done()
