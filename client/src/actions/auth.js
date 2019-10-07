@@ -1,5 +1,9 @@
 import axios from 'axios'
-import { setAlert } from './alert'
+import {
+  createNotification,
+  NOTIFICATION_TYPE_SUCCESS,
+  NOTIFICATION_TYPE_ERROR,
+} from 'react-redux-notify'
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -8,7 +12,6 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
-  CLEAR_PROFILE,
 } from './types'
 import setAuthToken from '../utils/set-auth-token'
 
@@ -25,6 +28,15 @@ export const loadUser = () => async dispatch => {
       type: USER_LOADED,
       payload: res.data,
     })
+
+    dispatch(
+      createNotification({
+        message: `Signed in as ${res.data.name}`,
+        type: NOTIFICATION_TYPE_SUCCESS,
+        duration: 2000,
+        canDismiss: true,
+      })
+    )
   } catch (err) {
     dispatch({
       type: AUTH_ERROR,
@@ -34,7 +46,6 @@ export const loadUser = () => async dispatch => {
 
 // Register User
 export const registerUser = ({ name, email, password }) => async dispatch => {
-  console.log('in registerUser')
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -60,7 +71,16 @@ export const registerUser = ({ name, email, password }) => async dispatch => {
     const errors = err.response.data.errors
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+      errors.forEach(error =>
+        dispatch(
+          createNotification({
+            message: error.msg,
+            type: NOTIFICATION_TYPE_ERROR,
+            duration: 2000,
+            canDismiss: true,
+          })
+        )
+      )
     }
 
     dispatch({
@@ -93,7 +113,16 @@ export const loginUser = ({ email, password }) => async dispatch => {
     const errors = err.response.data.errors
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+      errors.forEach(error =>
+        dispatch(
+          createNotification({
+            message: error.msg,
+            type: NOTIFICATION_TYPE_ERROR,
+            duration: 2000,
+            canDismiss: true,
+          })
+        )
+      )
     }
 
     dispatch({
@@ -104,6 +133,5 @@ export const loginUser = ({ email, password }) => async dispatch => {
 
 // Logout / Clear Profile
 export const logout = () => dispatch => {
-  dispatch({ type: CLEAR_PROFILE })
   dispatch({ type: LOGOUT })
 }
