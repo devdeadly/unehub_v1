@@ -19,7 +19,7 @@ const app = express()
   const env = getEnv()
   const mongoUri = `MONGO_URI${env}`
   const dbUri = process.env[mongoUri]
-  await db.connectWithRetry(dbUri)
+  await db.connect(dbUri)
 
   // init middleware
   app.use(express.json({ extended: false }))

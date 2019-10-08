@@ -7,23 +7,17 @@ const MONGO_DB_OPTIONS = {
   useFindAndModify: false,
 }
 
-const connectWithRetry = async uri => {
+const connect = async uri => {
   await mongoose
     .connect(uri, MONGO_DB_OPTIONS)
-    .then(() => {
-      console.log(`MongoDB ↑\n`.magenta.bold)
-    })
+    .then(() => console.log(`MongoDB ↑\n`.magenta.bold))
     .catch(() => {
-      console.log(
-        `Failed to connect to MongoDB, retrying in ${MONGO_DB_OPTIONS.reconnectInterval /
-          1000} second(s)`.red.bold
-      )
-      setTimeout(
-        () => connectWithRetry(uri),
-        MONGO_DB_OPTIONS.reconnectInterval
-      )
+      console.log('Failed to connect to MongoDB'.red.bold)
+      process.exit(1)
     })
-  return
+    .finally(() => {
+      return
+    })
 }
 
 const disconnect = async () => {
@@ -38,6 +32,6 @@ const disconnect = async () => {
 }
 
 module.exports = {
-  connectWithRetry,
+  connect,
   disconnect,
 }
