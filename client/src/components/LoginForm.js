@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { email, required } from '../utils/validators'
 // import { setAlert } from '../actions/alert'
-import { loginUser } from '../actions/auth'
+import { loginRider } from '../actions/auth'
 
 class LoginForm extends Component {
   submit = ({ email, password }) => {
-    this.props.loginUser({ email, password })
+    this.props.loginRider({ email, password })
   }
 
   renderField = ({
@@ -79,7 +79,7 @@ class LoginForm extends Component {
 
 const connectedLoginForm = connect(
   null,
-  { alert, loginUser }
+  { alert, loginRider }
 )(LoginForm)
 const createReduxForm = reduxForm({
   form: 'login', // a unique identifier for this form

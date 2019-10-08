@@ -17,7 +17,6 @@ const app = express()
  */
 ;(async () => {
   const env = getEnv()
-  console.log('env', env)
   const mongoUri = `MONGO_URI${env}`
   const dbUri = process.env[mongoUri]
   await db.connectWithRetry(dbUri)
@@ -35,8 +34,7 @@ const app = express()
   const PORT = process.env.PORT || 8000
 
   app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}\n`.magenta.bold)
-    console.log('emitting ready')
+    console.log(`Server ↑ (${PORT})\n`.magenta.bold)
     app.emit('READY')
   })
 })()

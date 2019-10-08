@@ -1,7 +1,7 @@
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  USER_LOADED,
+  RIDER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -13,7 +13,7 @@ const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: null,
   loading: true,
-  user: {
+  rider: {
     name: '',
     email: '',
     avatar: '',
@@ -24,12 +24,12 @@ export default function(state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {
-    case USER_LOADED:
+    case RIDER_LOADED:
       return {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: payload,
+        rider: payload,
       }
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
@@ -49,7 +49,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         token: null,
-        user: {},
+        rider: {},
         isAuthenticated: false,
         loading: false,
       }

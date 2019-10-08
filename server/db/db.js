@@ -8,14 +8,10 @@ const MONGO_DB_OPTIONS = {
 }
 
 const connectWithRetry = async uri => {
-  mongoose
+  await mongoose
     .connect(uri, MONGO_DB_OPTIONS)
     .then(() => {
-      console.log(
-        `Successfully connected to${
-          process.env.NODE_ENV === 'test' ? ' test instance of ' : ' '
-        }MongoDB\n`.magenta.bold
-      )
+      console.log(`MongoDB ↑\n`.magenta.bold)
     })
     .catch(() => {
       console.log(
@@ -33,11 +29,7 @@ const connectWithRetry = async uri => {
 const disconnect = async () => {
   try {
     await mongoose.disconnect()
-    console.log(
-      `Closed connection to${
-        process.env.NODE_ENV === 'test' ? ' test instance of ' : ' '
-      }MongoDB\n`.magenta.bold
-    )
+    console.log(`MongoDB ↓\n`.magenta.bold)
   } catch (error) {
     console.error(error.message)
     // exit process with failure (stop app)

@@ -5,9 +5,8 @@ const Rider = require('../models/Rider')
 const { genError, handleServerError } = require('../utils/error')
 const { getAvatarByEmail } = require('../utils/avatar')
 
-const getAuthd = async (req, res) => {
+const getAuthdRider = async (req, res) => {
   try {
-    console.log('req.rider', req.rider)
     const rider = await Rider.findById(req.rider.id).select('-password')
     res.json(rider)
   } catch (error) {
@@ -96,7 +95,7 @@ const registerRider = async (req, res) => {
 }
 
 module.exports = {
-  getAuthd,
+  getAuthdRider,
   loginRider,
   registerRider,
 }

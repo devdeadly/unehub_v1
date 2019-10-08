@@ -115,7 +115,7 @@
       "response": []
     },
     {
-      "name": "upsert profile",
+      "name": "update profile",
       "event": [
         {
           "listen": "test",
@@ -232,7 +232,7 @@
           "raw": ""
         },
         "url": {
-          "raw": "{{api_url}}/profile/me",
+          "raw": "{{api_url}}/profile",
           "host": ["{{api_url}}"],
           "path": ["profile", "me"]
         }

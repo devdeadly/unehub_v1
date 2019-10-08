@@ -6,7 +6,7 @@ const newRider = {
   password: 'password',
 }
 
-const newProfile = {
+const newRiderAddedInfo = {
   location: 'Queens, NY',
   birthday: '02/10/1987',
   disciplines: 'street, flat, trials',
@@ -20,5 +20,5 @@ const newProfile = {
 
 module.exports = {
   newRider,
-  newProfile,
+  newRiderAddedInfo,
 }

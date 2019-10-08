@@ -7,7 +7,7 @@ import {
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-  USER_LOADED,
+  RIDER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
@@ -15,17 +15,16 @@ import {
 } from './types'
 import setAuthToken from '../utils/set-auth-token'
 
-// Load User
-export const loadUser = () => async dispatch => {
+export const loadRider = () => async dispatch => {
   if (localStorage.token) {
     setAuthToken(localStorage.token)
   }
 
   try {
-    const res = await axios.get('http://localhost/api/auth')
+    const res = await axios.get('http://localhost:8000/api/auth')
 
     dispatch({
-      type: USER_LOADED,
+      type: RIDER_LOADED,
       payload: res.data,
     })
 
@@ -44,8 +43,7 @@ export const loadUser = () => async dispatch => {
   }
 }
 
-// Register User
-export const registerUser = ({ name, email, password }) => async dispatch => {
+export const registerRider = ({ name, email, password }) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -56,7 +54,7 @@ export const registerUser = ({ name, email, password }) => async dispatch => {
 
   try {
     const res = await axios.post(
-      'http://localhost/api/auth/register',
+      'http://localhost:8000/api/auth/register',
       body,
       config
     )
@@ -66,7 +64,7 @@ export const registerUser = ({ name, email, password }) => async dispatch => {
       payload: res.data,
     })
 
-    dispatch(loadUser())
+    dispatch(loadRider())
   } catch (err) {
     const errors = err.response.data.errors
 
@@ -89,8 +87,7 @@ export const registerUser = ({ name, email, password }) => async dispatch => {
   }
 }
 
-// Login User
-export const loginUser = ({ email, password }) => async dispatch => {
+export const loginRider = ({ email, password }) => async dispatch => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -100,7 +97,7 @@ export const loginUser = ({ email, password }) => async dispatch => {
   const body = JSON.stringify({ email, password })
 
   try {
-    const res = await axios.post('http://localhost/api/auth', body, config)
+    const res = await axios.post('http://localhost:8000/api/auth', body, config)
 
     console.log(res.data)
     dispatch({
@@ -108,8 +105,9 @@ export const loginUser = ({ email, password }) => async dispatch => {
       payload: res.data,
     })
 
-    dispatch(loadUser())
+    dispatch(loadRider())
   } catch (err) {
+    console.log(err)
     const errors = err.response.data.errors
 
     if (errors) {
@@ -131,7 +129,6 @@ export const loginUser = ({ email, password }) => async dispatch => {
   }
 }
 
-// Logout / Clear Profile
 export const logout = () => dispatch => {
   dispatch({ type: LOGOUT })
 }

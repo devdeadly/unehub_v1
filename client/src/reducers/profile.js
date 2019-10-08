@@ -1,14 +1,14 @@
 import {
-  GET_PROFILE,
-  PROFILE_ERROR,
-  CLEAR_PROFILE,
-  UPDATE_PROFILE,
-  GET_PROFILES,
+  GET_RIDER,
+  RIDER_ERROR,
+  CLEAR_RIDER,
+  UPDATE_RIDER,
+  GET_RIDERS,
 } from '../actions/types'
 
 const initialState = {
-  profile: null,
-  profiles: [],
+  rider: null,
+  riders: [],
   loading: true,
   error: {},
 }
@@ -17,29 +17,29 @@ export default function(state = initialState, action) {
   const { type, payload } = action
 
   switch (type) {
-    case GET_PROFILE:
-    case UPDATE_PROFILE:
+    case GET_RIDER:
+    case UPDATE_RIDER:
       return {
         ...state,
-        profile: payload,
+        rider: payload,
         loading: false,
       }
-    case GET_PROFILES:
+    case GET_RIDERS:
       return {
         ...state,
-        profiles: payload,
+        riders: payload,
         loading: false,
       }
-    case PROFILE_ERROR:
+    case RIDER_ERROR:
       return {
         ...state,
         error: payload,
         loading: false,
       }
-    case CLEAR_PROFILE:
+    case CLEAR_RIDER:
       return {
         ...state,
-        profile: null,
+        rider: null,
         loading: false,
       }
     default:

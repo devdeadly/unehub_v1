@@ -3,7 +3,7 @@ const { check } = require('express-validator')
 
 const auth = require('../middleware/auth')
 const validateRequest = require('../middleware/validate-request')
-const { getAuthd, loginRider, registerRider } = require('../services/auth')
+const { getAuthdRider, loginRider, registerRider } = require('../services/auth')
 
 const router = express.Router()
 
@@ -42,11 +42,12 @@ router.route('/register').post(
   ],
   registerRider
 )
+
 /**
  * @route GET api/auth
  * @desc get currently authenticated rider information
  * @access private
  */
-router.route('/').get(auth, getAuthd)
+router.route('/').get(auth, getAuthdRider)
 
 module.exports = router

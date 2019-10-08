@@ -3,20 +3,32 @@ const auth = require('../middleware/auth')
 const { check } = require('express-validator')
 const validateRequest = require('../middleware/validate-request')
 
-const { deleteAuthd, getAllRiders, upsertRider } = require('../services/riders')
+const {
+  deleteAuthd,
+  getAllRiders,
+  getRiderById,
+  updateRider,
+} = require('../services/riders')
 
 const router = express.Router()
 
 /**
- * @route POST api/profile
- * @desc create or update user profile
- * @access private
+ * @route GET api/riders
+ * @desc get all riders
+ * @access public
  */
 router.route('/').get(getAllRiders)
 
 /**
- * @route POST api/profile
- * @desc create or update user profile
+ * @route GET api/riders/:rider_id
+ * @desc get rider by id
+ * @access public
+ */
+router.route('/:rider_id').get(getRiderById)
+
+/**
+ * @route POST api/riders
+ * @desc update rider
  * @access private
  */
 router.route('/').post(
@@ -27,12 +39,12 @@ router.route('/').post(
       .isEmpty(),
     validateRequest,
   ],
-  upsertRider
+  updateRider
 )
 
 /**
- * @route DELETE api/profile
- * @desc delete riders, profile, and posts
+ * @route DELETE api/riders
+ * @desc delete riders, rider, and posts
  * @access private
  */
 router.route('/').delete(auth, deleteAuthd)

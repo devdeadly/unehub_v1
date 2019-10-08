@@ -67,21 +67,21 @@ class Navbar extends Component {
             <div className='lg:flex-grow'></div>
             <div className='flex'>
               <button
-                className='lg:self-center bg-purple-500  rounded px-2 py-1 text-white mt-4 lg:mt-0 hover:shadow-md transition-all transition-100'
+                className='lg:self-center bg-purple-500 font-bold rounded px-2 py-1 text-white mt-4 lg:mt-0 hover:shadow-md transition-all transition-100'
                 onClick={this.toggleRegisterForm}
               >
                 register
               </button>
               {this.props.isAuthenticated ? (
                 <button
-                  className='lg:self-center bg-gray-200 text-gray-700 rounded px-2 py-1 text-white mt-4 mx-4 lg:mt-0  hover:shadow-md transition-all transition-100'
+                  className='lg:self-center bg-gray-200 font-bold text-gray-700 rounded px-2 py-1 text-white mt-4 mx-4 lg:mt-0  hover:shadow-md transition-all transition-100'
                   onClick={this.props.logout}
                 >
                   logout
                 </button>
               ) : (
                 <button
-                  className='lg:self-center bg-gray-200 text-gray-700 rounded px-2 py-1 text-white mt-4 mx-4 lg:mt-0  hover:shadow-md transition-all transition-100'
+                  className='lg:self-center bg-gray-200 font-bold text-gray-700 rounded px-2 py-1 text-white mt-4 mx-4 lg:mt-0  hover:shadow-md transition-all transition-100'
                   onClick={this.toggleLoginForm}
                 >
                   log in
@@ -96,7 +96,7 @@ class Navbar extends Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.auth.user.name,
+  rider: state.auth.rider.name,
   isAuthenticated: state.auth.isAuthenticated,
 })
 
