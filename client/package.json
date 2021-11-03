@@ -19,7 +19,7 @@
     "tailwindcss": "^1.1.2",
     "tailwindcss-transitions": "^2.1.0",
     "uuid": "^3.3.3",
-    "validator": "^11.1.0"
+    "validator": "^13.7.0"
   },
   "scripts": {
     "start": "npm run tailwind:css && react-scripts start",
